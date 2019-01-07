@@ -1,0 +1,20 @@
+[Unit]
+Description=iotkit
+Before=systemd-user-sessions.service
+
+[Service]
+Type=simple
+RemainAfterExit=true
+ExecStart=/usr/bin/node /home/pi/Edison_side/boot.js
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=iot # without any quote
+User=root
+Environment="HOME=/home/pi"
+Environment="PATH=/usr/bin:/usr/local/bin"
+Environment="NODE_ENV=production"
+WorkingDirectory=/home/pi/Edison_side/
+
+[Install]
+WantedBy=multi-user.target

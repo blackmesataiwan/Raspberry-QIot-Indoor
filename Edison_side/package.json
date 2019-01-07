@@ -1,0 +1,26 @@
+{
+  "name": "qiot",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {
+    "coap": "^0.20.0",
+    "mara": "^0.1.4",
+    "mqtt": "^2.5.0",
+    "sleep": "^5.1.1",
+    "mraa": "latest",
+    "jsupm_button": "latest",
+    "jsupm_grove": "latest",
+    "jsupm_grovemoisture": "latest",
+    "jsupm_biss0001": "latest",
+    "rpi-gpio": "latest",
+    "jsupm_jhd1313m1": "latest",
+    "jsupm_rotaryencoder": "latest",
+    "jsupm_th02": "latest"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tim Hsu",
+  "license": "ISC"
+}
