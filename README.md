@@ -1,4 +1,4 @@
-# Intel-Edison-QIot-Indoor
+# Raspberry-QIot-Indoor
 #### Table of Contents
 
 1. [Description](#description)
@@ -7,104 +7,85 @@
 
 ## Description
 
-Connect Grove Indoor Environment Kit for Intel Edison to QNAP NAS via QIoT Suite Lite.
+Connect Grove Indoor Environment Kit for Intel Edison & GrovePi+ & Raspberry Pi 3 QNAP NAS via QIoT Suite Lite.
 
 ## Setup
 
 ### Setup Requirements
 
-* An Intel Edison board
+* A GrovePi+ & Raspberry Pi 3 & SD card installed Raspbian OS
 * Grove Indoor Environment Kit for Intel Edison
 * 1 Micro B to Type A USB cables
-* A power supply with 7-15V DC and 1500mA at least
+* A USB power supply with 2100mA at least
 * A Wifi AP
 
 
 ### Installation
 
-1. Download Intel Edison drivers based on your host PC:
-  * Windows users: https://software.intel.com/en-us/get-started-edison-windows
-  * Mac users: https://software.intel.com/en-us/get-started-edison-osx
-  * Linux users: https://software.intel.com/en-us/get-started-edison-linux
+1. Configure and test your device
 
-2. Configure and test your device
-  * [Assemble the Intel Edison board](https://software.intel.com/en-us/get-started-edison-windows-step1)
-  * [Assemble the Indoor Environment Kit](https://youtu.be/-BX65BijSFc)
     * Using 26AWG Grove Cable making the following connections:
-    
+
       |    Grove Modules    | Connected to |
       | ---------- | --- |
       | Temperature & Humidity Sensor |  I2C |
       | Moisture Sensor | A1 |
       | Light Sensor | A2 |
-      | UV Sensor | A3 |
-      | PIR Motion Sensor | D7 |
-      | Encoder | D2 |
-      | Button | D8 |
+      | PIR Motion Sensor | D3 |
+      | Encoder | **\*Onbord PIN 11 (GPIO 17)** |
+      | Button | D6 |
       | LCD RGB Backlight | I2C |
-      | Relay | D4 |
-      | Servo | D6 |    
-      | Buzzer | D5 |        
-  *  [Run setup tools](https://software.intel.com/en-us/get-started-edison-osx-step2): Use the setup tool to flash the latest firmware on the Intel® Edison development board via a convenient wizard. The setup tool also lets you enable SSH and Wi-Fi* connectivity to your board, as described in the steps to follow.
-  
+      | Relay | **\*Onbord PIN 18 (GPIO24)** |
+      | Buzzer | D5 |
+      
+      \* Need to use **[Grove - 4 pin Female Jumper to Grove 4 pin Conversion Cable](https://www.seeedstudio.com/Grove-4-pin-Female-Jumper-to-Grove-4-pin-Conversion-Cable-5-PCs-per-PAck.html)** to connect to Raspberry Pi board (not GrovePi+'s Pin).
 
-3. Install Nodejs and required libraries
+2. Upload all file on Raspberry Pi to this path : `/home/pi/`
 
-  ~~~
-  echo "src intel-iotdk https://iotdk.intel.com/repos/3.5/intelgalactic/opkg/i586/" > /etc/opkg/intel-iotdk.conf
-  opkg update
-  opkg upgrade mraa upm
-  opkg install nodejs
-  ~~~
-  
+3. Install Node.js on Raspberry Pi
+
+4. Run `setup.sh` in `/home/pi/Rpi_side/` to install required libraries
+
 ## Usage
-### Import sample application ([iot_inbox.json](/QIoT_side/iot_inbox.json)) in QIoT
-* Import the iot_inbox.json file in the IoT Application Panel.
+### Import sample application ([iot_inbox.json](/QIoT_side/iot_inbox.json)) in QIoT Suite Lite
+* Import the `iot_inbox.json` file in the IoT Application Panel.
 * Go to "Thing" panel and click "Connect a Device" in the action section.
 * Choose MQTTS protocol
 * Download certificates file
 * Download resource info file
-### Download sample code on Edison
 
+### Upload certificates and resourceinfo file to your Raspberry Pi
+You can upload files to Raspberry Pi by Filezilla or WinSCP tools
+* Upload certificates to /home/pi/Rpi_side/ssl
+* Upload `resourceinfo.json` to /home/pi/Rpi_side/res
 
-### Upload certificates and resourceinfo file to your Edison
-You can upload files to Edison by Filezilla or WinSCP tools
-* Upload certificates to /Edison_side/ssl
-* Upload resourceinfo.json to /Edison_side/res
-
-### Run sample code on Intel Edison and connect to QIoT
+### Run sample code on Raspberry Pi and connect to QIoT Suite Lite
   ~~~
-  cd Edison_side/
-  npm install
+  cd /home/pi/Rpi_side/
   ~~~
-  
+
   * Run sample code in foreground mode
   ~~~
   node boot.js
   ~~~
-  * Run sample code in non-stop mode
-  ~~~
-  sh autostart.sh
-  ~~~
-
 ### Auto setup environment and auto start sample code on boot 
   ~~~
-  sh setup_autostart.sh
+  bash setup_autostart.sh
   ~~~
-  
+
   * Start service
   ~~~
-  systemctl start autostart.service
+  systemctl start iotkit.service
   ~~~
   * Stop service
   ~~~
-  systemctl stop autostart.service
+  systemctl stop iotkit.service
   ~~~
   * Restart service
   ~~~
-  systemctl restart autostart.service
+  systemctl restart iotkit.service
   ~~~
   * Status service
   ~~~
-  systemctl status autostart.service
+  systemctl status iotkit.service
   ~~~

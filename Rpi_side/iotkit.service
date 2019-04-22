@@ -5,8 +5,10 @@ Before=systemd-user-sessions.service
 [Service]
 Type=simple
 RemainAfterExit=true
-ExecStart=/usr/bin/node /home/pi/Edison_side/boot.js
+ExecStart=/usr/bin/node /home/pi/Rpi_side/boot.js
 Restart=always
+StartLimitInterval=0
+RemainAfterExit=no
 StandardOutput=syslog
 StandardError=syslog
 SyslogIdentifier=iot # without any quote
@@ -14,7 +16,7 @@ User=root
 Environment="HOME=/home/pi"
 Environment="PATH=/usr/bin:/usr/local/bin"
 Environment="NODE_ENV=production"
-WorkingDirectory=/home/pi/Edison_side/
+WorkingDirectory=/home/pi/Rpi_side/
 
 [Install]
 WantedBy=multi-user.target
